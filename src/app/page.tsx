@@ -1,5 +1,6 @@
 // src/app/page.tsx
 import { InvoiceCard } from "@/components/InvoiceCard";
+import { WalletStatus } from "@/components/WalletStatus";
 import { listInvoices } from "@/lib/invoices";
 import { usdcExplorerUrl } from "@/lib/usdc";
 
@@ -27,6 +28,11 @@ export default function HomePage() {
           </a>
         </div>
       </header>
+
+      {/* Wallet Connection */}
+      <div className="mb-6">
+        <WalletStatus />
+      </div>
 
       <div className="flex flex-col gap-3">
         {invoices.map((inv) => (
