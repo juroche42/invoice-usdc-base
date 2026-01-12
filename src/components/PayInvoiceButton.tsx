@@ -58,24 +58,80 @@ export function PayInvoiceButton({
     }
   }
 
-  // État de non-connexion
+  // État de non-connexion - Bloqué
   if (!isConnected) {
     return (
-      <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-        <p className="text-sm text-yellow-800">
-          ⚠️ Connectez votre wallet pour payer cette facture
-        </p>
+      <div className="space-y-3">
+        <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg opacity-60">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm font-medium text-gray-700">Montant à payer:</span>
+            <span className="text-lg font-bold text-gray-900">{amount} USDC</span>
+          </div>
+          <div className="flex justify-between items-center text-xs text-gray-600">
+            <span>Destinataire:</span>
+            <code className="bg-white px-2 py-1 rounded font-mono">
+              {recipientAddress.slice(0, 6)}...{recipientAddress.slice(-4)}
+            </code>
+          </div>
+        </div>
+
+        <div className="p-4 bg-yellow-50 border-2 border-yellow-300 rounded-lg">
+          <div className="flex items-start gap-3">
+            <span className="text-2xl">🔒</span>
+            <div className="flex-1">
+              <p className="text-sm font-semibold text-yellow-900 mb-1">
+                Action bloquée - Wallet non connecté
+              </p>
+              <p className="text-xs text-yellow-800">
+                Vous devez connecter votre wallet pour payer cette facture.
+                Utilisez le bouton de connexion ci-dessus.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <button
+          disabled
+          className="w-full px-6 py-3 bg-gray-400 text-white font-medium rounded-lg cursor-not-allowed opacity-60 flex items-center justify-center gap-2"
+        >
+          🔒 Paiement bloqué - Connectez votre wallet
+        </button>
       </div>
     )
   }
 
-  // Mauvais réseau
+  // Mauvais réseau - Bloqué
   if (!isCorrectNetwork) {
     return (
-      <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-        <p className="text-sm text-red-800">
-          ⚠️ Veuillez vous connecter au réseau Base Sepolia
-        </p>
+      <div className="space-y-3">
+        <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg opacity-60">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm font-medium text-gray-700">Montant à payer:</span>
+            <span className="text-lg font-bold text-gray-900">{amount} USDC</span>
+          </div>
+        </div>
+
+        <div className="p-4 bg-orange-50 border-2 border-orange-300 rounded-lg">
+          <div className="flex items-start gap-3">
+            <span className="text-2xl">🔒</span>
+            <div className="flex-1">
+              <p className="text-sm font-semibold text-orange-900 mb-1">
+                Action bloquée - Mauvais réseau
+              </p>
+              <p className="text-xs text-orange-800">
+                Vous devez être sur le réseau Base Sepolia pour payer cette facture.
+                Changez de réseau avec le sélecteur ci-dessus.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <button
+          disabled
+          className="w-full px-6 py-3 bg-gray-400 text-white font-medium rounded-lg cursor-not-allowed opacity-60 flex items-center justify-center gap-2"
+        >
+          🔒 Paiement bloqué - Changez de réseau
+        </button>
       </div>
     )
   }

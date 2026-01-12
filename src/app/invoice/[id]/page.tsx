@@ -2,6 +2,9 @@
 import Link from "next/link";
 import { getInvoiceById } from "@/lib/invoices";
 import { formatUsdc, usdcExplorerUrl } from "@/lib/usdc";
+import { WalletStatus } from "@/components/WalletStatus";
+import { RequireWallet } from "@/components/RequireWallet";
+import { BlockedButton } from "@/components/BlockedButton";
 
 export default function InvoiceDetailPage({
   params,
@@ -30,6 +33,11 @@ export default function InvoiceDetailPage({
         <h1 className="text-2xl font-bold mt-3">{invoice.reference}</h1>
         <p className="text-gray-600 mt-1">{invoice.vendorName}</p>
       </header>
+
+      {/* Wallet Status */}
+      <div className="mb-6">
+        <WalletStatus />
+      </div>
 
       <section className="rounded-xl border p-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
@@ -77,21 +85,26 @@ export default function InvoiceDetailPage({
           <div className="mt-1">{invoice.description}</div>
         </div>
 
-        <div className="mt-6 flex gap-3">
-          <button
-            disabled
-            className="rounded-lg px-4 py-2 bg-gray-200 text-gray-600 cursor-not-allowed"
-            title="Payment flow is implemented in a later step"
-          >
-            Pay in USDC (coming next)
-          </button>
+        <div className="mt-6">
+          <RequireWallet requireCorrectNetwork={true}>
+            <div className="flex gap-3">
+              <BlockedButton
+                requireWallet={true}
+                requireCorrectNetwork={true}
+                onClick={() => alert('Paiement en cours...')}
+                className="rounded-lg px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+              >
+                💳 Pay {formatUsdc(invoice.amountUsdc)} USDC
+              </BlockedButton>
 
-          <Link
-            href={`/invoice/${invoice.id}/status`}
-            className="rounded-lg px-4 py-2 border"
-          >
-            View status
-          </Link>
+              <Link
+                href={`/invoice/${invoice.id}/status`}
+                className="rounded-lg px-4 py-2 border hover:bg-gray-50 transition-colors"
+              >
+                View status
+              </Link>
+            </div>
+          </RequireWallet>
         </div>
       </section>
     </main>
