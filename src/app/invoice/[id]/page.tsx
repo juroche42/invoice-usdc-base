@@ -3,8 +3,7 @@ import Link from "next/link";
 import { getInvoiceById } from "@/lib/invoices";
 import { formatUsdc, usdcExplorerUrl } from "@/lib/usdc";
 import { WalletStatus } from "@/components/WalletStatus";
-import { RequireWallet } from "@/components/RequireWallet";
-import { BlockedButton } from "@/components/BlockedButton";
+import { USDCPaymentButton } from "@/components/USDCPaymentButton";
 
 export default function InvoiceDetailPage({
   params,
@@ -86,25 +85,31 @@ export default function InvoiceDetailPage({
         </div>
 
         <div className="mt-6">
-          <RequireWallet requireCorrectNetwork={true}>
-            <div className="flex gap-3">
-              <BlockedButton
-                requireWallet={true}
-                requireCorrectNetwork={true}
-                onClick={() => alert('Paiement en cours...')}
-                className="rounded-lg px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 transition-colors"
-              >
-                💳 Pay {formatUsdc(invoice.amountUsdc)} USDC
-              </BlockedButton>
+          <USDCPaymentButton
+            recipientAddress={invoice.vendorAddress as `0x${string}`}
+            amount={formatUsdc(invoice.amountUsdc)}
+            invoiceId={invoice.reference}
+            onTransactionSent={(hash) => {
+              console.log('Transaction envoyée:', hash)
+            }}
+            onTransactionConfirmed={(hash) => {
+              console.log('Transaction confirmée:', hash)
+              // Ici vous pouvez ajouter votre logique custom
+              // Mais AUCUNE mise à jour automatique du statut "PAID"
+            }}
+            onError={(error) => {
+              console.error('Erreur de paiement:', error)
+            }}
+          />
 
-              <Link
-                href={`/invoice/${invoice.id}/status`}
-                className="rounded-lg px-4 py-2 border hover:bg-gray-50 transition-colors"
-              >
-                View status
-              </Link>
-            </div>
-          </RequireWallet>
+          <div className="mt-3">
+            <Link
+              href={`/invoice/${invoice.id}/status`}
+              className="inline-block rounded-lg px-4 py-2 border hover:bg-gray-50 transition-colors text-sm"
+            >
+              Voir le statut
+            </Link>
+          </div>
         </div>
       </section>
     </main>
