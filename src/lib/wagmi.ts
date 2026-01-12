@@ -1,10 +1,10 @@
 import { http, createConfig } from 'wagmi'
-import { baseSepolia } from 'wagmi/chains'
+import { baseSepolia, base } from 'wagmi/chains'
 import { injected, walletConnect } from 'wagmi/connectors'
 
 // Configuration wagmi
 export const config = createConfig({
-  chains: [baseSepolia],
+  chains: [baseSepolia, base],
   connectors: [
     injected(),
     walletConnect({
@@ -14,6 +14,9 @@ export const config = createConfig({
   transports: {
     [baseSepolia.id]: http(
       process.env.NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL || 'https://sepolia.base.org'
+    ),
+    [base.id]: http(
+      process.env.NEXT_PUBLIC_BASE_RPC_URL || 'https://mainnet.base.org'
     ),
   },
 })
