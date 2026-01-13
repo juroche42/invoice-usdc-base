@@ -220,12 +220,17 @@ className="bg-blue-50 border-blue-200"
 
 ## 🚀 Prochaines améliorations possibles
 
+- [x] ~~Ajouter composant de reçu de transaction~~
+- [x] ~~Afficher txHash, montant, destinataire, lien BaseScan~~
+- [x] ~~Créer version compacte du reçu~~
 - [ ] Ajouter `useBalance()` pour vérifier le solde USDC avant paiement
 - [ ] Ajouter un bouton "Approve" si nécessaire
 - [ ] Créer un composant `TransactionHistory`
 - [ ] Ajouter une notification toast après transaction
 - [ ] Créer un composant `NetworkSwitcher` séparé
 - [ ] Ajouter support multi-chaînes (Base mainnet, autres L2)
+- [ ] Permettre l'export du reçu en PDF
+- [ ] Ajouter QR code sur le reçu
 
 ---
 

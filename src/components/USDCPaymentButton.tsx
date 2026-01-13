@@ -190,34 +190,15 @@ export function USDCPaymentButton({
     // État: confirmed
     if (paymentState === 'confirmed' && hash) {
       return (
-        <div className="space-y-3">
-          <div className="p-4 bg-green-50 border-2 border-green-300 rounded-lg">
-            <div className="flex items-start gap-3">
-              <span className="text-3xl">✅</span>
-              <div className="flex-1">
-                <p className="text-base font-bold text-green-900 mb-2">
-                  Paiement confirmé !
-                </p>
-                <div className="space-y-1 text-xs text-green-800 mb-3">
-                  <p>✓ Montant: <strong>{amount} USDC</strong></p>
-                  <p>✓ Destinataire: <code className="bg-green-100 px-1 py-0.5 rounded">{recipientAddress.slice(0, 6)}...{recipientAddress.slice(-4)}</code></p>
-                  {invoiceId && <p>✓ Facture: <strong>{invoiceId}</strong></p>}
-                  <p>✓ État: <code className="bg-green-100 px-1 rounded">confirmed</code></p>
-                </div>
-                <a
-                  href={txUrl(hash)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-xs text-green-700 hover:text-green-900 font-medium underline underline-offset-2"
-                >
-                  Voir la transaction sur BaseScan →
-                </a>
-                <p className="text-xs text-green-700 mt-3 p-2 bg-green-100 rounded">
-                  ℹ️ Le paiement est enregistré on-chain. Aucune mise à jour automatique du statut de la facture.
-                </p>
-              </div>
-            </div>
-          </div>
+        <div className="space-y-4">
+          <TransactionReceipt
+            txHash={hash}
+            amount={amount}
+            recipientAddress={recipientAddress}
+            token="USDC"
+            invoiceId={invoiceId}
+            timestamp={new Date()}
+          />
         </div>
       )
     }
